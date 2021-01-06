@@ -1,11 +1,13 @@
 package uz.leeway.android.library.sample
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import uz.leeway.android.lib.lollipinx.PinCompatActivity
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : PinCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
     }
+
+    override fun getLayoutRes(): Int = R.layout.activity_main
 }

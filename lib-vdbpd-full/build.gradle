@@ -20,8 +20,6 @@ android {
 
     kotlinOptions {
         jvmTarget = '1.8'
-        kotlinOptions.freeCompilerArgs +=
-                ['-module-name', "uz.leeway.android.lib.vdbpd"]
     }
 
     buildFeatures {

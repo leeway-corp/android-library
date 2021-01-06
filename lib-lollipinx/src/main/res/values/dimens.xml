@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- PinCode Round ImageView -->
+    <dimen name="pin_code_round_size">25dp</dimen>
+    <dimen name="pin_code_round_margin">10dp</dimen>
+
+    <!-- Keyboard Button -->
+    <dimen name="keyboard_button_text_size">30sp</dimen>
+    <dimen name="keyboard_button_padding">15dp</dimen>
+
+    <dimen name="activity_padding_20">20dp</dimen>
+    <dimen name="activity_padding_30">30dp</dimen>
+    <dimen name="light_gray_bar_margin_top">20dp</dimen>
+    <dimen name="light_gray_bar_margin_bottom">5dp</dimen>
+    <dimen name="light_gray_bar_margin_sides">50dp</dimen>
+    <dimen name="pin_code_forgot_text_size">16sp</dimen>
+    <dimen name="pin_code_step_text_size">20sp</dimen>
+    <dimen name="pin_code_elements_margin">20dp</dimen>
+    <dimen name="pin_code_round_top_margin">10dp</dimen>
+
+    <!-- Activity Pin Code -->
+    <dimen name="pin_code_logo_margin">30dp</dimen>
+
+</resources>

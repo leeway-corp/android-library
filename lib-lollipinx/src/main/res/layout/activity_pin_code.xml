@@ -79,7 +79,7 @@
                 android:onClick="@{() -> callback.onSignOutClick()}"
                 android:padding="8dp"
                 android:singleLine="true"
-                android:text="Hello world"
+                android:text="@string/sign_out"
                 android:textColor="@color/dark_grey_color"
                 android:textSize="16sp" />
 
@@ -256,5 +256,4 @@
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
-
 </layout>

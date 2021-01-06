@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+    id 'kotlin-kapt'
 }
 
 android {
@@ -26,18 +27,13 @@ android {
     }
 
     buildFeatures {
-        buildConfig = false
-        viewBinding = false
-        dataBinding = false
-        aidl = false
-        renderScript = false
-        resValues = false
-        shaders = false
+        dataBinding = true
     }
+
 }
 
 dependencies {
-    implementation project(':lib-retrofit')
+    implementation project(':lib-lollipinx')
 
     implementation rootProject.ext.dependencies.kotlinStdLib
     implementation rootProject.ext.dependencies.coreKtx

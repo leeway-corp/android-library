@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ll_intent_action_cancel">${applicationId}.actionCancelled</string>
+</resources>
