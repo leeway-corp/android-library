@@ -4,5 +4,4 @@ object LolliPinX {
 
     fun testLolli(){
         println("Test lollipin")
-    }
-}
+    } }
