@@ -34,6 +34,7 @@ android {
 
 dependencies {
     implementation project(':lib-lollipinx')
+    implementation 'com.kirich1409.viewbindingpropertydelegate:viewbindingpropertydelegate:1.4.0'
 
     implementation rootProject.ext.dependencies.kotlinStdLib
     implementation rootProject.ext.dependencies.coreKtx
