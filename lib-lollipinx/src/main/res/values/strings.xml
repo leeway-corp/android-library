@@ -33,4 +33,11 @@
     <string name="pin_code_fingerprint_not_recognized">Fingerprint not recognized. Try again</string>
     <string name="sign_out">Sign out</string>
     <string name="pin_code_step_sub_title">We use it to protect your data</string>
+
+    <string name="pin_lock_step_disable">Disable %d-digit Pin code</string>
+    <string name="pin_lock_step_create">Create a %d-digit Pin code</string>
+    <string name="pin_lock_step_change">Enter your current %d-digit Pin code</string>
+    <string name="pin_lock_step_unlock">Enter your %d-digit Pin code</string>
+    <string name="pin_lock_step_confirm">Confirm your %d-digit Pin code</string>
+
 </resources>

@@ -9,6 +9,10 @@
         <import type="android.view.View" />
 
         <variable
+            name="pinLength"
+            type="Integer" />
+
+        <variable
             name="state"
             type="uz.leeway.android.lib.lollipinx.managers.PinCodeState" />
 
@@ -35,7 +39,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:gravity="center"
-                android:text="@string/pin_code_step_create"
+                android:text="@{state.getResName(context, pinLength)}"
                 android:textColor="@android:color/black"
                 android:textSize="20sp"
                 tools:text="Enter Passcode" />
@@ -84,6 +88,7 @@
                 android:textSize="16sp" />
 
             <GridLayout
+                android:id="@+id/keyboard_group"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:columnCount="3"
