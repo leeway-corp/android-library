@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
@@ -72,7 +73,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="20dp"
-                android:minHeight="20dp" />
+                android:minHeight="20dp"
+                app:lp_empty_pin_dot="@drawable/pin_code_round_empty"
+                app:lp_full_pin_dot="@drawable/pin_code_round_full"
+                app:lp_pin_length="@{pinLength}" />
 
             <TextView
                 android:layout_width="wrap_content"

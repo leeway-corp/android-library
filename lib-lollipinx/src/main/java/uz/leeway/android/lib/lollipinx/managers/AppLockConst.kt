@@ -26,6 +26,7 @@ object AppLockConst {
         const val LOGO_ID_NONE: Int = -1
 
 
+        const val KEY_IS_ENABLED_APP_LOCK = "KEY_IS_ENABLED_APP_LOCK"
         const val KEY_TIMEOUT_MILLIS = "KEY_TIMEOUT_MILLIS"
         const val KEY_LOGO_ID = "KEY_LOGO_ID"
         const val KEY_SHOW_FORGOT = "KEY_SHOW_FORGOT"

@@ -3,6 +3,7 @@ package uz.leeway.android.lib.lollipinx.ext
 import android.content.Context
 import android.content.Intent
 import android.view.ViewGroup
+import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -20,8 +21,16 @@ fun Context?.refreshLastActiveMillis() {
     this?.let { PrefUtils(it).setLastActiveMillis() }
 }
 
-fun ViewGroup?.shake() {
-    this?.let { startAnimation(AnimationUtils.loadAnimation(it.context, R.anim.shake)) }
+inline fun ViewGroup?.shake(crossinline block: () -> Unit) {
+    this?.let {
+        val loadAnimation = AnimationUtils.loadAnimation(it.context, R.anim.shake)
+        loadAnimation.setAnimationListener(object : Animation.AnimationListener {
+            override fun onAnimationStart(animation: Animation?) = Unit
+            override fun onAnimationEnd(animation: Animation?) = block.invoke()
+            override fun onAnimationRepeat(animation: Animation?) = Unit
+        })
+        startAnimation(loadAnimation)
+    }
 }
 
 fun Context?.pinMakeToast(message: String) {

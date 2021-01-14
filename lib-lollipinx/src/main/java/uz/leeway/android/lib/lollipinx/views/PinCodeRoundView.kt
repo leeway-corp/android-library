@@ -44,6 +44,24 @@ class PinCodeRoundView @JvmOverloads constructor(
         }
     }
 
+    fun getCurrentLength() = this.nCurrentLength
+
+    fun setEmptyDotDrawable(@DrawableRes drawableResId: Int) {
+        this.mEmptyDotDrawable = ContextCompat.getDrawable(context, drawableResId)
+    }
+
+    fun setEmptyDotDrawable(drawable: Drawable) {
+        this.mEmptyDotDrawable = drawable
+    }
+
+    fun setFullDotDrawable(@DrawableRes drawableResId: Int) {
+        this.mFullDotDrawable = ContextCompat.getDrawable(context, drawableResId)
+    }
+
+    fun setFullDotDrawable(drawable: Drawable) {
+        this.mFullDotDrawable = drawable
+    }
+
     fun setPinLength(pinLength: Int) {
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         nRoundContainer?.let { container ->
@@ -63,23 +81,5 @@ class PinCodeRoundView @JvmOverloads constructor(
             roundViews.addAll(temps)
             refresh(0)
         }
-    }
-
-    fun getCurrentLength() = this.nCurrentLength
-
-    fun setEmptyDotDrawable(@DrawableRes drawableResId: Int) {
-        this.mEmptyDotDrawable = ContextCompat.getDrawable(context, drawableResId)
-    }
-
-    fun setEmptyDotDrawable(drawable: Drawable) {
-        this.mEmptyDotDrawable = drawable
-    }
-
-    fun setFullDotDrawable(@DrawableRes drawableResId: Int) {
-        this.mFullDotDrawable = ContextCompat.getDrawable(context, drawableResId)
-    }
-
-    fun setFullDotDrawable(drawable: Drawable) {
-        this.mFullDotDrawable = drawable
     }
 }

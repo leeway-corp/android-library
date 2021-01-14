@@ -24,4 +24,12 @@ class CustomPinCodeActivity : AbstractLockActivity<ActivityPinCodeBinding>() {
 
     override fun getKeyboardGroup() = binding.keyboardGroup
 
+    override fun onSignOutClick() {
+        pinMakeToast("onSignOutClick")
+    }
+
+    override fun onForgotClick() {
+        pinMakeToast("onForgotClick")
+    }
+
 }

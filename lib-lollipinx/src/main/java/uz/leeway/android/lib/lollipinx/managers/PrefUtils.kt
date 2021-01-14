@@ -11,6 +11,12 @@ class PrefUtils(private val context: Context) {
         PreferenceManager.getDefaultSharedPreferences(context)
     }
 
+    fun getIsEnabledAppLock(): Boolean =
+        pref.getBoolean(AppLockConst.PrefKeys.KEY_IS_ENABLED_APP_LOCK, true)
+
+    fun setIsEnabledAppLock(isEnable: Boolean) =
+        pref.edit { putBoolean(AppLockConst.PrefKeys.KEY_IS_ENABLED_APP_LOCK, isEnable) }
+
     fun getTimeout(): Long = pref.getLong(
         AppLockConst.PrefKeys.KEY_TIMEOUT_MILLIS,
         AppLockConst.PrefKeys.DEFAULT_TIMEOUT
@@ -67,7 +73,7 @@ class PrefUtils(private val context: Context) {
     fun setPassCode(pin: String) =
         pref.edit { putString(AppLockConst.PrefKeys.KEY_PASS_CODE, pin) }
 
-    fun containsPassCode(): Boolean = pref.contains(AppLockConst.PrefKeys.KEY_PASS_CODE)
+    fun containsPassCode(): Boolean = pref.getString(AppLockConst.PrefKeys.KEY_PASS_CODE, "").isNullOrEmpty().not()
 
     fun removePassCode() = pref.edit { remove(AppLockConst.PrefKeys.KEY_PASS_CODE) }
 
