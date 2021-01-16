@@ -1,5 +1,3 @@
-include ':lib-vdbpd-noreflection'
-include ':lib-vdbpd-full'
 include ':lib-lollipinx'
 include ':lib-retrofit'
 include ':app'
