@@ -2,19 +2,23 @@
 
 package uz.leeway.android.lib.retrofit.async
 
-import uz.leeway.android.lib.retrofit.model.AsyncResult
 import retrofit2.Call
 import retrofit2.CallAdapter
 import retrofit2.Retrofit
+import uz.leeway.android.lib.retrofit.model.AsyncResult
 import java.lang.reflect.ParameterizedType
 import java.lang.reflect.Type
 
-class ResultAdapterFactory : CallAdapter.Factory() {
+class ResultAdapterFactory private constructor() : CallAdapter.Factory() {
     companion object {
         fun create() = ResultAdapterFactory()
     }
 
-    override fun get(returnType: Type, annotations: Array<Annotation>, retrofit: Retrofit): CallAdapter<*, *>? {
+    override fun get(
+        returnType: Type,
+        annotations: Array<Annotation>,
+        retrofit: Retrofit
+    ): CallAdapter<*, *>? {
         val rawReturnType: Class<*> = getRawType(returnType)
         if (rawReturnType == Call::class.java) {
             if (returnType is ParameterizedType) {
