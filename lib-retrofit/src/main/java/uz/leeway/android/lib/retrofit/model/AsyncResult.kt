@@ -23,13 +23,6 @@ sealed class AsyncResult<out T> {
             override val statusMessage: String? = null,
             override val url: String? = null
         ) : Success<T>(), uz.leeway.android.lib.retrofit.model.HttpResponse
-
-        object Empty : Success<Nothing>() {
-
-            override val value: Nothing get() = error("No value")
-
-            override fun toString() = "Success"
-        }
     }
 
     /** Failure ... */
