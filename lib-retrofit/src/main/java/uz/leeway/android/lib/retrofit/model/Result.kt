@@ -1,11 +1,12 @@
 package uz.leeway.android.lib.retrofit.model
 
-sealed class AsyncResult<out T> {
+sealed class Result<out T> {
 
-    sealed class Success<T> : AsyncResult<T>() {
+    sealed class Success<T> : Result<T>() {
+
         abstract val value: T
 
-        override fun toString(): String = "Success($value)"
+        override fun toString() = "Success($value)"
 
         class Value<T>(override val value: T) : Success<T>()
 
@@ -17,23 +18,29 @@ sealed class AsyncResult<out T> {
         ) : Success<T>(), uz.leeway.android.lib.retrofit.model.HttpResponse
 
         object Empty : Success<Nothing>() {
+
             override val value: Nothing get() = error("No value")
-            override fun toString(): String = "Success"
+
+            override fun toString() = "Success"
         }
     }
 
-    sealed class Failure<E : Throwable>(open val error: E? = null) : AsyncResult<Nothing>() {
-        override fun toString(): String = "Failure($error)"
+    sealed class Failure<E : Throwable>(open val error: E? = null) : Result<Nothing>() {
+
+        override fun toString() = "Failure($error)"
 
         class Error(override val error: Throwable) : Failure<Throwable>(error)
 
-        class HttpError(override val error: HttpException) :
-            Failure<HttpException>(), HttpResponse {
+        class HttpError(override val error: HttpException) : Failure<HttpException>(),
+            HttpResponse {
+
             override val statusCode: Int get() = error.statusCode
+
             override val statusMessage: String? get() = error.statusMessage
+
             override val url: String? get() = error.url
         }
     }
 }
 
-typealias EmptyResult = AsyncResult<Nothing>
+typealias EmptyResult = Result<Nothing>
