@@ -1,8 +1,8 @@
 package uz.leeway.android.lib.retrofit.model
 
-sealed class Result<out T> {
+sealed class AsyncResult<out T> {
 
-    sealed class Success<T> : Result<T>() {
+    sealed class Success<T> : AsyncResult<T>() {
 
         abstract val value: T
 
@@ -25,7 +25,7 @@ sealed class Result<out T> {
         }
     }
 
-    sealed class Failure<E : Throwable>(open val error: E? = null) : Result<Nothing>() {
+    sealed class Failure<E : Throwable>(open val error: E? = null) : AsyncResult<Nothing>() {
 
         override fun toString() = "Failure($error)"
 
@@ -43,4 +43,4 @@ sealed class Result<out T> {
     }
 }
 
-typealias EmptyResult = Result<Nothing>
+typealias EmptyResult = AsyncResult<Nothing>

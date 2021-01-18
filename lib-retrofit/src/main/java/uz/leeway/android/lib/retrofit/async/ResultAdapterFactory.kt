@@ -2,7 +2,7 @@
 
 package uz.leeway.android.lib.retrofit.async
 
-import uz.leeway.android.lib.retrofit.model.Result
+import uz.leeway.android.lib.retrofit.model.AsyncResult
 import retrofit2.Call
 import retrofit2.CallAdapter
 import retrofit2.Retrofit
@@ -16,7 +16,7 @@ class ResultAdapterFactory : CallAdapter.Factory() {
         if (rawReturnType == Call::class.java) {
             if (returnType is ParameterizedType) {
                 val callInnerType: Type = getParameterUpperBound(0, returnType)
-                if (getRawType(callInnerType) == Result::class.java) {
+                if (getRawType(callInnerType) == AsyncResult::class.java) {
                     // resultType is Call<Result<*>> | callInnerType is Result<*>
                     if (callInnerType is ParameterizedType) {
                         val resultInnerType = getParameterUpperBound(0, callInnerType)
@@ -31,9 +31,9 @@ class ResultAdapterFactory : CallAdapter.Factory() {
     }
 }
 
-private class ResultCallAdapter<R>(private val type: Type) : CallAdapter<R, Call<Result<R>>> {
+private class ResultCallAdapter<R>(private val type: Type) : CallAdapter<R, Call<AsyncResult<R>>> {
 
     override fun responseType() = type
 
-    override fun adapt(call: Call<R>): Call<Result<R>> = ResultCall(call)
+    override fun adapt(call: Call<R>): Call<AsyncResult<R>> = ResultCall(call)
 }
