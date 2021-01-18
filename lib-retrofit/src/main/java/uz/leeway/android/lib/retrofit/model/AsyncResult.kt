@@ -2,6 +2,13 @@ package uz.leeway.android.lib.retrofit.model
 
 sealed class AsyncResult<out T> {
 
+    /** None ... */
+    object None : AsyncResult<Nothing>()
+
+    /** Loading ... */
+    object Loading : AsyncResult<Nothing>()
+
+    /** Success ... */
     sealed class Success<T> : AsyncResult<T>() {
 
         abstract val value: T
@@ -25,6 +32,7 @@ sealed class AsyncResult<out T> {
         }
     }
 
+    /** Failure ... */
     sealed class Failure<E : Throwable>(open val error: E? = null) : AsyncResult<Nothing>() {
 
         override fun toString() = "Failure($error)"
@@ -41,6 +49,11 @@ sealed class AsyncResult<out T> {
             override val url: String? get() = error.url
         }
     }
+
+    fun isLoading() = this == Loading
+
+    fun isNotLoading() = !isLoading()
 }
 
 typealias EmptyResult = AsyncResult<Nothing>
+

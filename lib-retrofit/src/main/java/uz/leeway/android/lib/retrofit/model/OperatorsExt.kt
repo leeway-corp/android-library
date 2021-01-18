@@ -19,7 +19,9 @@ fun <T> AsyncResult<T>.isFailure(): Boolean {
 
 fun <T> AsyncResult<T>.asFailure(): AsyncResult.Failure<*> = this as AsyncResult.Failure<*>
 
-fun <T, R> AsyncResult<T>.map(transform: (value: T) -> R): AsyncResult<R> = when(this) {
+fun <T, R> AsyncResult<T>.map(transform: (value: T) -> R): AsyncResult<R> = when (this) {
+    is AsyncResult.None -> this
+    is AsyncResult.Loading -> this
     is AsyncResult.Success -> AsyncResult.Success.Value(transform(value))
     is AsyncResult.Failure<*> -> this
 }
