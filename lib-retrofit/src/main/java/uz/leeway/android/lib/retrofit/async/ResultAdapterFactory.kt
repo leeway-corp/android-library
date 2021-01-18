@@ -10,6 +10,9 @@ import java.lang.reflect.ParameterizedType
 import java.lang.reflect.Type
 
 class ResultAdapterFactory : CallAdapter.Factory() {
+    companion object {
+        fun create() = ResultAdapterFactory()
+    }
 
     override fun get(returnType: Type, annotations: Array<Annotation>, retrofit: Retrofit): CallAdapter<*, *>? {
         val rawReturnType: Class<*> = getRawType(returnType)
