@@ -36,10 +36,13 @@ internal class ResultCall<T>(proxy: Call<T>) : CallDelegate<T, AsyncResult<T>>(p
                         url = call.request().url.toString(),
                     )
                 } else {
+                    val msg = response.message()
+                    val message = if (msg.isNullOrEmpty()) response.makeErrorBody() else msg
+
                     AsyncResult.Failure.HttpError(
                         HttpException(
                             statusCode = response.code(),
-                            statusMessage = response.message(),
+                            statusMessage = message,
                             url = call.request().url.toString(),
                         )
                     )
@@ -69,5 +72,20 @@ internal class ResultCall<T>(proxy: Call<T>) : CallDelegate<T, AsyncResult<T>>(p
 
     override fun timeout(): Timeout {
         return proxy.timeout()
+    }
+}
+
+private fun <T> Response<T>.makeErrorBody(): String? {
+    val error = errorBody()
+    return when {
+        error == null -> null
+
+        error.contentLength() == 0L -> null
+
+        else -> try {
+            error.string()
+        } catch (ex: Exception) {
+            null
+        }
     }
 }
