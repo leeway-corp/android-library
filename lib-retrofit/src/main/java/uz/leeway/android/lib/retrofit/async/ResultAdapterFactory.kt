@@ -2,10 +2,13 @@
 
 package uz.leeway.android.lib.retrofit.async
 
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.CallAdapter
+import retrofit2.Converter
 import retrofit2.Retrofit
-import uz.leeway.android.lib.retrofit.model.AsyncResult
+import uz.leeway.android.lib.retrofit.model.AbstractError
+import uz.leeway.android.lib.retrofit.model.ResultNet
 import java.lang.reflect.ParameterizedType
 import java.lang.reflect.Type
 
@@ -19,28 +22,44 @@ class ResultAdapterFactory private constructor() : CallAdapter.Factory() {
         annotations: Array<Annotation>,
         retrofit: Retrofit
     ): CallAdapter<*, *>? {
-        val rawReturnType: Class<*> = getRawType(returnType)
-        if (rawReturnType == Call::class.java) {
-            if (returnType is ParameterizedType) {
-                val callInnerType: Type = getParameterUpperBound(0, returnType)
-                if (getRawType(callInnerType) == AsyncResult::class.java) {
-                    // resultType is Call<Result<*>> | callInnerType is Result<*>
-                    if (callInnerType is ParameterizedType) {
-                        val resultInnerType = getParameterUpperBound(0, callInnerType)
-                        return ResultCallAdapter<Any?>(resultInnerType)
-                    }
-                    return ResultCallAdapter<Nothing>(Nothing::class.java)
-                }
-            }
+
+        // suspend functions wrap the response type in `Call`
+        if (Call::class.java != getRawType(returnType)) {
+            return null
         }
 
-        return null
+        // check first that the return type is `ParameterizedType`
+        check(returnType is ParameterizedType) {
+            "return type must be parameterized as Call<ResultNet<<Foo>> or Call<ResultNet<out Foo>>"
+        }
+
+        // get the response type inside the `Call` type
+        val responseType = getParameterUpperBound(0, returnType)
+        // if the response type is not ApiResponse then we can't handle this type, so we return null
+        if (getRawType(responseType) != ResultNet::class.java) {
+            return null
+        }
+
+        // the response type is ApiResponse and should be parameterized
+        check(responseType is ParameterizedType) { "Response must be parameterized as ResultNet<Foo> or ResultNet<out Foo>" }
+
+        val successBodyType = getParameterUpperBound(0, responseType)
+        val errorBodyType = getParameterUpperBound(1, responseType)
+
+        val errorBodyConverter =
+            retrofit.nextResponseBodyConverter<AbstractError>(null, errorBodyType, annotations)
+
+        return ResultCallAdapter<Any?, AbstractError>(successBodyType, errorBodyConverter)
+
     }
 }
 
-private class ResultCallAdapter<R>(private val type: Type) : CallAdapter<R, Call<AsyncResult<R>>> {
+private class ResultCallAdapter<R, E : AbstractError>(
+    private val type: Type,
+    private val converter: Converter<ResponseBody, E>
+) : CallAdapter<R, Call<ResultNet<R, E>>> {
 
     override fun responseType() = type
 
-    override fun adapt(call: Call<R>): Call<AsyncResult<R>> = ResultCall(call)
+    override fun adapt(call: Call<R>): Call<ResultNet<R, E>> = ResultCall(call, converter)
 }

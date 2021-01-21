@@ -5,26 +5,29 @@ package uz.leeway.android.lib.retrofit.model
 import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.contract
 
-fun <T> AsyncResult<T>.isSuccess(): Boolean = this is AsyncResult.Success
+fun <T, E : AbstractError> ResultNet<T, E>.isSuccess(): Boolean = this is ResultNet.Success
 
-fun <T> AsyncResult<T>.asSuccess(): AsyncResult.Success<T> = this as AsyncResult.Success<T>
+fun <T, E : AbstractError> ResultNet<T, E>.asSuccess(): ResultNet.Success<T> =
+    this as ResultNet.Success<T>
 
 @OptIn(ExperimentalContracts::class)
-fun <T> AsyncResult<T>.isFailure(): Boolean {
+fun <T, E : AbstractError> ResultNet<T, E>.isFailure(): Boolean {
     contract {
-        returns(true) implies (this@isFailure is AsyncResult.Failure<*>)
+        returns(true) implies (this@isFailure is ResultNet.Failure<*>)
     }
-    return this is AsyncResult.Failure<*>
+    return this is ResultNet.Failure<*>
 }
 
-fun <T> AsyncResult<T>.asFailure(): AsyncResult.Failure<*> = this as AsyncResult.Failure<*>
+fun <T, E : AbstractError> ResultNet<T, E>.asFailure(): ResultNet.Failure<*> =
+    this as ResultNet.Failure<*>
 
-fun <T, R> AsyncResult<T>.map(transform: (value: T) -> R): AsyncResult<R> = when (this) {
-    is AsyncResult.None -> this
-    is AsyncResult.Loading -> this
-    is AsyncResult.Success -> AsyncResult.Success.Value(transform(value))
-    is AsyncResult.Failure<*> -> this
-}
+fun <T, R, E : AbstractError> ResultNet<T, E>.map(transform: (value: T) -> R): ResultNet<R, E> =
+    when (this) {
+        is ResultNet.None -> this
+        is ResultNet.Loading -> this
+        is ResultNet.Success -> ResultNet.Success.Value(transform(value))
+        is ResultNet.Failure<*> -> this
+    }
 
-fun <T, R> AsyncResult<T>.flatMap(transform: (result: AsyncResult<T>) -> AsyncResult<R>): AsyncResult<R> =
+fun <T, R, E : AbstractError> ResultNet<T, E>.flatMap(transform: (result: ResultNet<T, E>) -> ResultNet<R, E>): ResultNet<R, E> =
     transform(this)

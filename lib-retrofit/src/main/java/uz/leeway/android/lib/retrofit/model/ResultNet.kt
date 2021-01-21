@@ -1,15 +1,15 @@
 package uz.leeway.android.lib.retrofit.model
 
-sealed class AsyncResult<out T> {
+sealed class ResultNet<out T, out U> {
 
     /** None ... */
-    object None : AsyncResult<Nothing>()
+    object None : ResultNet<Nothing, Nothing>()
 
     /** Loading ... */
-    object Loading : AsyncResult<Nothing>()
+    object Loading : ResultNet<Nothing, Nothing>()
 
     /** Success ... */
-    sealed class Success<T> : AsyncResult<T>() {
+    sealed class Success<T> : ResultNet<T, Nothing>() {
 
         abstract val value: T
 
@@ -26,7 +26,7 @@ sealed class AsyncResult<out T> {
     }
 
     /** Failure ... */
-    sealed class Failure<E : Throwable>(open val error: E? = null) : AsyncResult<Nothing>() {
+    sealed class Failure<E : Throwable>(open val error: E? = null) : ResultNet<Nothing, Nothing>() {
 
         override fun toString() = "Failure($error)"
 
@@ -48,5 +48,5 @@ sealed class AsyncResult<out T> {
     fun isNotLoading() = !isLoading()
 }
 
-typealias EmptyResult = AsyncResult<Nothing>
+typealias EmptyResult = ResultNet<Nothing, Nothing>
 
