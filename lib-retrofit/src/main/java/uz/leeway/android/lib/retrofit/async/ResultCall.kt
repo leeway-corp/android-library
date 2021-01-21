@@ -54,19 +54,6 @@ internal class ResultCall<T, E : AbstractError>(
             callback.onResponse(proxy, Response.success(result))
         }
 
-        private fun findErrorBodyString(error: ResponseBody?): E? {
-            return when {
-                error == null -> null
-                error.contentLength() == 0L -> null
-                else -> try {
-                    converter.convert(error)
-                } catch (ex: Exception) {
-//                Timber.e(ex)
-                    null
-                }
-            }
-        }
-
         override fun onFailure(call: Call<T>, error: Throwable) {
             val result = when (error) {
                 is NoConnectionException -> ResultNet.Failure.HttpError(
@@ -84,6 +71,19 @@ internal class ResultCall<T, E : AbstractError>(
             }
 
             callback.onResponse(proxy, Response.success(result))
+        }
+
+        private fun findErrorBodyString(error: ResponseBody?): E? {
+            return when {
+                error == null -> null
+                error.contentLength() == 0L -> null
+                else -> try {
+                    converter.convert(error)
+                } catch (ex: Exception) {
+//                Timber.e(ex)
+                    null
+                }
+            }
         }
     }
 
